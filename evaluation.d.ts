@@ -19,8 +19,13 @@ declare module "@qualweb/evaluation" {
   import { WappalyzerReport } from "@qualweb/wappalyzer";
   import { CounterReport, executeCounter } from "@qualweb/counter";
   import { HTMLValidationReport } from "@qualweb/html-validator";
-  import { QWPage } from "@qualweb/qw-page";
-  import { QWElement } from "@qualweb/qw-element";
+  import {
+    QWPage,
+    QWNode,
+    QWElementNode,
+    QWTextNode,
+    QWCommentNode,
+  } from "@qualweb/qw-page";
   import { DomUtils, AccessibilityUtils } from "@qualweb/util";
   import { Page } from "puppeteer";
 
@@ -30,7 +35,10 @@ declare module "@qualweb/evaluation" {
   global {
     interface Window {
       qwPage: QWPage;
-      qwElement: QWElement;
+      qwNode: QWNode;
+      qwElement: QWElementNode;
+      qwText: QWTextNode;
+      qwComment: QWCommentNode;
       act: ACTRules;
       wcag: WCAGTechniques;
       executeCounter: typeof executeCounter;
