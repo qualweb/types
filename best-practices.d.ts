@@ -1,9 +1,10 @@
 declare module "@qualweb/best-practices" {
+  import { Translate, TranslationValues } from "@qualweb/locale";
   import { QWElement } from "@qualweb/qw-element";
-  
+
   interface BPOptions {
-    bestPractices?: string[];
-    exclude?: string[];
+    bestPractices?: Array<string>;
+    exclude?: Array<string>;
   }
 
   interface SuccessCriteria {
@@ -22,7 +23,7 @@ declare module "@qualweb/best-practices" {
       attributes?: string | string[];
       css?: string | string[];
     };
-    "success-criteria"?: SuccessCriteria[];
+    "success-criteria"?: Array<SuccessCriteria>;
     related?: string[];
     url?: string;
     passed: number;
@@ -37,17 +38,17 @@ declare module "@qualweb/best-practices" {
 
   interface BestPracticeResult {
     verdict: "passed" | "failed" | "warning" | "inapplicable";
-    description: string[] | string;
-    resultCode: string[] | string;
-    elements?: BPElement[];
-    attributes?: string | string[];
+    description: string;
+    resultCode: string;
+    elements: Array<BPElement>;
+    attributes: Array<string>;
   }
 
   interface BPElement {
     pointer?: string;
     htmlCode?: string;
     accessibleName?: string;
-    attributes?: string | string[];
+    attributes?: Array<string>;
     cssCode?: string;
     property?: {
       name?: string;
@@ -69,7 +70,7 @@ declare module "@qualweb/best-practices" {
     mapping?: string;
     description: string;
     metadata: BestPracticeMetadata;
-    results: BestPracticeResult[];
+    results: Array<BestPracticeResult>;
   }
 
   interface BestPracticesReport {
@@ -85,21 +86,30 @@ declare module "@qualweb/best-practices" {
   }
 
   class Test implements BestPracticeResult {
-    verdict: 'passed' | 'failed' | 'warning' | 'inapplicable';
-    description: string | string[];
-    resultCode: string | string[];
+    verdict: "passed" | "failed" | "warning" | "inapplicable";
+    description: string;
+    resultCode: string;
     elements: BPElement[];
-    attributes?: string | string[] | undefined;
+    attributes: Array<string>;
 
-    constructor(verdict?: 'passed' | 'failed' | 'warning', description?: string, resultCode?: string);
+    constructor(
+      verdict?: "passed" | "failed" | "warning",
+      description?: string,
+      resultCode?: string
+    );
 
-    public addElement(element: QWElement, withText: boolean, fullElement: boolean): void;
+    public addElement(
+      element: QWElement,
+      withText: boolean,
+      fullElement: boolean
+    ): void;
   }
 
   abstract class BestPracticeObject {
     private readonly bestPractice: BestPractice;
+    private readonly locale: Translate;
 
-    constructor(bestPractice: BestPractice);
+    constructor(bestPractice: BestPractice, locale: Translate);
 
     protected getNumberOfWarningResults(): number;
 
@@ -108,6 +118,11 @@ declare module "@qualweb/best-practices" {
     public abstract execute(element: QWElement | undefined): void;
 
     public getFinalResults(): BestPractice;
+
+    protected getTranslation(
+      resultCode: string,
+      values?: TranslationValues
+    ): string;
 
     private outcomeBestPractice(): void;
 
@@ -118,15 +133,17 @@ declare module "@qualweb/best-practices" {
     private readonly bestPractices: { [bp: string]: BestPracticeObject };
     private readonly bestPracticesToExecute: { [bp: string]: boolean };
 
-    constructor(options?: BPOptions);
+    constructor(locale: Translate, options?: BPOptions);
+
     public configure(options: BPOptions): void;
     public resetConfiguration(): void;
+    public execute(): BestPracticesReport;
+
     private executeBP(
       bestPractice: string,
       selector: string,
       report: BestPracticesReport
     ): void;
-    public execute(): BestPracticesReport;
   }
 
   export {

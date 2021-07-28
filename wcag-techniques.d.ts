@@ -1,7 +1,8 @@
 declare module "@qualweb/wcag-techniques" {
+  import { Translate, TranslationValues } from "@qualweb/locale";
   import { QWElement } from "@qualweb/qw-element";
   import { HTMLValidationReport } from "@qualweb/html-validator";
-  import { Level, Principle } from '@qualweb/evaluation';
+  import { Level, Principle } from "@qualweb/evaluation";
 
   interface WCAGOptions {
     techniques?: string[];
@@ -42,10 +43,10 @@ declare module "@qualweb/wcag-techniques" {
 
   interface WCAGTechniqueResult {
     verdict: "passed" | "failed" | "warning" | "inapplicable";
-    description: string[] | string;
-    resultCode: string[] | string;
+    description: string;
+    resultCode: string;
     elements: Array<WCAGElement>;
-    attributes?: string | string[];
+    attributes: Array<string>;
   }
 
   interface WCAGMetadata {
@@ -54,6 +55,7 @@ declare module "@qualweb/wcag-techniques" {
     failed: number;
     inapplicable: number;
   }
+
   interface WCAGElement {
     pointer?: string;
     htmlCode?: string;
@@ -89,25 +91,41 @@ declare module "@qualweb/wcag-techniques" {
   }
 
   class Test implements WCAGTechniqueResult {
-    verdict: 'passed' | 'failed' | 'warning' | 'inapplicable';
-    description: string | string[];
-    resultCode: string | string[];
-    elements: WCAGElement[];
-    attributes?: string | string[] | undefined;
+    verdict: "passed" | "failed" | "warning" | "inapplicable";
+    description: string;
+    resultCode: string;
+    elements: Array<WCAGElement>;
+    attributes: Array<string>;
 
-    constructor(verdict?: 'passed' | 'failed' | 'warning', description?: string, resultCode?: string);
+    constructor(
+      verdict?: "passed" | "failed" | "warning",
+      description?: string,
+      resultCode?: string
+    );
 
-    public addElement(element: QWElement, withText: boolean, fullElement: boolean): void;
+    public addElement(
+      element: QWElement,
+      withText: boolean,
+      fullElement: boolean
+    ): void;
   }
 
   abstract class Technique {
     private readonly technique: WCAGTechnique;
+    private readonly locale: Translate;
 
-    constructor(technique: WCAGTechnique);
+    constructor(technique: WCAGTechnique, locale: Translate);
 
     public getTechniqueMapping(): string;
 
-    public hasPrincipleAndLevels(principles: Array<Principle>, levels: Array<Level>): boolean;
+    public hasPrincipleAndLevels(
+      principles: Array<Principle>,
+      levels: Array<Level>
+    ): boolean;
+
+    abstract execute(element: QWElement | undefined): void;
+
+    public getFinalResults(): WCAGTechnique;
 
     protected getNumberOfWarningResults(): number;
 
@@ -115,9 +133,10 @@ declare module "@qualweb/wcag-techniques" {
 
     protected addTestResult(result: Test): void;
 
-    abstract execute(element: QWElement | undefined): void;
-
-    public getFinalResults(): WCAGTechnique;
+    protected getTranslation(
+      resultCode: string,
+      values?: TranslationValues
+    ): string;
 
     private outcomeTechnique(): void;
 
@@ -128,9 +147,15 @@ declare module "@qualweb/wcag-techniques" {
     private readonly techniques: { [technique: string]: Technique };
     private readonly techniquesToExecute: { [technique: string]: boolean };
 
-    constructor(options?: WCAGOptions);
+    constructor(locale: Translate, options?: WCAGOptions);
+
     public configure(options: WCAGOptions): void;
     public resetConfiguration(): void;
+    public execute(
+      newTabWasOpen: boolean,
+      validation: HTMLValidationReport
+    ): WCAGTechniquesReport;
+
     private executeTechnique(
       technique: string,
       selector: string,
@@ -138,7 +163,6 @@ declare module "@qualweb/wcag-techniques" {
     ): void;
     private executeMappedTechniques(report: WCAGTechniquesReport): void;
     private executeNotMappedTechniques(report: WCAGTechniquesReport): void;
-    public execute(newTabWasOpen: boolean, validation: HTMLValidationReport): WCAGTechniquesReport;
   }
 
   export {

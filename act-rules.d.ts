@@ -1,4 +1,5 @@
 declare module "@qualweb/act-rules" {
+  import { Translate, TranslationValues } from "@qualweb/locale";
   import { QWElement } from "@qualweb/qw-element";
   import { Level, Principle } from "@qualweb/evaluation";
 
@@ -35,8 +36,8 @@ declare module "@qualweb/act-rules" {
     verdict: "passed" | "failed" | "warning" | "inapplicable";
     description: string;
     resultCode: string;
-    elements?: ACTElement[];
-    attributes?: string | string[];
+    elements: Array<ACTElement>;
+    attributes: Array<string>;
   }
   interface ACTElement {
     pointer?: string;
@@ -95,7 +96,7 @@ declare module "@qualweb/act-rules" {
     description: string;
     resultCode: string;
     elements: ACTElement[];
-    attributes?: string | string[] | undefined;
+    attributes: Array<string>;
 
     constructor(
       verdict?: "passed" | "failed" | "warning",
@@ -120,8 +121,9 @@ declare module "@qualweb/act-rules" {
 
   abstract class Rule {
     private readonly rule: ACTRule;
+    private readonly locale: Translate;
 
-    constructor(rule: ACTRule);
+    constructor(rule: ACTRule, locale: Translate);
 
     public getRuleMapping(): string;
 
@@ -129,6 +131,8 @@ declare module "@qualweb/act-rules" {
       principles: Array<Principle>,
       levels: Array<Level>
     ): boolean;
+
+    public getFinalResults(): ACTRule;
 
     protected getNumberOfPassedResults(): number;
 
@@ -138,7 +142,10 @@ declare module "@qualweb/act-rules" {
 
     protected addTestResult(test: Test): void;
 
-    public getFinalResults(): ACTRule;
+    protected getTranslation(
+      resultCode: string,
+      values?: TranslationValues
+    ): string;
 
     private outcomeRule(): void;
 
@@ -146,7 +153,7 @@ declare module "@qualweb/act-rules" {
   }
 
   abstract class CompositeRule extends Rule {
-    constructor(rule: ACTRule);
+    constructor(rule: ACTRule, locale: Translate);
 
     abstract execute(
       element: QWElement | undefined,
@@ -169,7 +176,7 @@ declare module "@qualweb/act-rules" {
   }
 
   abstract class AtomicRule extends Rule {
-    constructor(rule: ACTRule);
+    constructor(rule: ACTRule, locale: Translate);
 
     abstract execute(element: QWElement | undefined): void;
   }
@@ -180,9 +187,16 @@ declare module "@qualweb/act-rules" {
 
     private readonly report: ACTRulesReport;
 
-    constructor(options?: ACTROptions);
+    constructor(locale: Translate, options?: ACTROptions);
+
     public configure(options: ACTROptions): void;
     public resetConfiguration(): void;
+    public executeAtomicRules(): void;
+    public executeCompositeRules(): void;
+    public validateMetaElements(metaElements: Array<QWElement>): void;
+    public validateZoomedTextNodeNotClippedWithCSSOverflow(): void;
+    public validateFirstFocusableElementIsLinkToNonRepeatedContent(): void;
+    public getReport(): ACTRulesReport;
 
     private executeRule(rule: string, selector: string): void;
     private executeCompositeRule(
@@ -191,12 +205,6 @@ declare module "@qualweb/act-rules" {
       atomicRules: Array<string>,
       implementation: "conjunction" | "disjunction"
     ): void;
-    public executeAtomicRules(): void;
-    public executeCompositeRules(): void;
-    public validateMetaElements(metaElements: Array<QWElement>): void;
-    public validateZoomedTextNodeNotClippedWithCSSOverflow(): void;
-    public validateFirstFocusableElementIsLinkToNonRepeatedContent(): void;
-    public getReport(): ACTRulesReport;
   }
 
   export {
@@ -210,6 +218,7 @@ declare module "@qualweb/act-rules" {
     ACTRulesReport,
     ACTAtomicRuleMapping,
     ACTCompositeRuleMapping,
+    TranslationValues,
     Test,
     Rule,
     CompositeRule,
