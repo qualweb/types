@@ -1,6 +1,6 @@
 declare module "@qualweb/wcag-techniques" {
   import { Translate, TranslationValues } from "@qualweb/locale";
-  import { QWElement } from "@qualweb/qw-element";
+  import { QWElementNode } from "@qualweb/qw-element";
   import { HTMLValidationReport } from "@qualweb/html-validator";
   import { Level, Principle } from "@qualweb/evaluation";
 
@@ -104,7 +104,7 @@ declare module "@qualweb/wcag-techniques" {
     );
 
     public addElement(
-      element: QWElement,
+      element: QWElementNode,
       withText: boolean,
       fullElement: boolean
     ): void;
@@ -123,7 +123,7 @@ declare module "@qualweb/wcag-techniques" {
       levels: Array<Level>
     ): boolean;
 
-    abstract execute(element: QWElement | undefined): void;
+    abstract execute(element: QWElementNode | undefined): void;
 
     public getFinalResults(): WCAGTechnique;
 

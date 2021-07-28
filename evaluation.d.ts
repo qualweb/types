@@ -44,7 +44,7 @@ declare module "@qualweb/evaluation" {
       executeCounter: typeof executeCounter;
       DomUtils: typeof DomUtils;
       AccessibilityUtils: typeof AccessibilityUtils;
-      disabledWidgets: Array<QWElement>;
+      disabledWidgets: Array<QWElementNode>;
     }
   }
 

@@ -43,14 +43,6 @@ declare module "@qualweb/qw-page" {
       | QWNode
       | null;
     public getParentNode(): QWNode | null;
-    private convertToQWNode(node: Node): QWNode;
-    protected convertAllToQWElementNode(
-      elements: NodeListOf<Element>
-    ): Array<QWElementNode>;
-    protected convertToQWElementNode(element: Element): QWElementNode;
-    private addCSSRulesPropertyToElement(element: Element): void;
-    private convertToQWTextNode(node: ChildNode): QWTextNode;
-    private convertToQWCommentNode(node: ChildNode): QWCommentNode;
   }
 
   class QWElementNode extends QWNode {
@@ -141,8 +133,6 @@ declare module "@qualweb/qw-page" {
     public isFocused(): boolean;
     public isPartOfSequentialFocusNavigation(): boolean;
     public getSelector(): string;
-    private getSelfLocationInParent(element: Element): string;
-    private noParentScrolled(offset: number): boolean;
   }
 
   class QWTextNode extends QWNode {
@@ -159,13 +149,6 @@ declare module "@qualweb/qw-page" {
   class QWPage {
     constructor(document: Document, addCSSRulesToElements?: boolean);
     public createQWElementNode(element: Element): QWElementNode;
-    private processShadowDom(): void;
-    private processIframes(): void;
-    private addCSSRulesPropertyToElement(element: Element | null): void;
-    private addIframeAttribute(
-      elements: Array<QWElementNode>,
-      selector: string
-    ): void;
     public cacheValue(
       selector: string,
       method: string,
@@ -174,8 +157,6 @@ declare module "@qualweb/qw-page" {
     public getCachedValue(selector: string, method: string): string | undefined;
     public isValueCached(selector: string, method: string): boolean;
     public getURL(): string;
-    private findFromDocument(selector: string): QWElementNode | null;
-    private findAllFromDocument(selector: string): Array<QWElementNode>;
     public find(
       selector: string,
       specificDocument?: QWElementNode,
@@ -192,7 +173,6 @@ declare module "@qualweb/qw-page" {
     public toString(): string;
     public getFocusedElement(): QWElementNode | null;
     public cleanAllElements(): void;
-    private cleanAllElementsAux(elements: Array<Element>): void;
   }
 
   export {

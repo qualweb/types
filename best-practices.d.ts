@@ -1,6 +1,6 @@
 declare module "@qualweb/best-practices" {
   import { Translate, TranslationValues } from "@qualweb/locale";
-  import { QWElement } from "@qualweb/qw-element";
+  import { QWElementNode } from "@qualweb/qw-element";
 
   interface BPOptions {
     bestPractices?: Array<string>;
@@ -99,7 +99,7 @@ declare module "@qualweb/best-practices" {
     );
 
     public addElement(
-      element: QWElement,
+      element: QWElementNode,
       withText: boolean,
       fullElement: boolean
     ): void;
@@ -115,7 +115,7 @@ declare module "@qualweb/best-practices" {
 
     protected addTestResult(test: Test): void;
 
-    public abstract execute(element: QWElement | undefined): void;
+    public abstract execute(element: QWElementNode | undefined): void;
 
     public getFinalResults(): BestPractice;
 

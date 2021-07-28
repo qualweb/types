@@ -1,5 +1,19 @@
 # Changelog
 
+### [0.8.0-alpha] - 28/07/2021
+
+### Changed
+
+- QWElement to QWElementNode in several interfaces
+
+### Updated
+
+- qw-page interfaces
+
+### Removed
+
+- qw-element interface
+
 ### [0.7.10] - 28/07/2021
 
 ### Changed

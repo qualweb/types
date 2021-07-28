@@ -1,6 +1,6 @@
 declare module "@qualweb/act-rules" {
   import { Translate, TranslationValues } from "@qualweb/locale";
-  import { QWElement } from "@qualweb/qw-element";
+  import { QWElementNode } from "@qualweb/qw-element";
   import { Level, Principle } from "@qualweb/evaluation";
 
   interface ACTROptions {
@@ -105,14 +105,14 @@ declare module "@qualweb/act-rules" {
     );
 
     public addElement(
-      element: QWElement,
+      element: QWElementNode,
       withText: boolean,
       fullElement: boolean,
       aName?: boolean
     ): void;
 
     public addElements(
-      elements: Array<QWElement>,
+      elements: Array<QWElementNode>,
       withText: boolean,
       fullElement: boolean,
       aName?: boolean
@@ -156,13 +156,13 @@ declare module "@qualweb/act-rules" {
     constructor(rule: ACTRule, locale: Translate);
 
     abstract execute(
-      element: QWElement | undefined,
+      element: QWElementNode | undefined,
       rules?: Array<ACTRule>
     ): void;
 
-    public conjunction(element: QWElement, rules: Array<ACTRule>): void;
+    public conjunction(element: QWElementNode, rules: Array<ACTRule>): void;
 
-    public disjunction(element: QWElement, rules: Array<ACTRule>): void;
+    public disjunction(element: QWElementNode, rules: Array<ACTRule>): void;
 
     public getAtomicRuleResultPerVerdict(
       selector: string,
@@ -178,7 +178,7 @@ declare module "@qualweb/act-rules" {
   abstract class AtomicRule extends Rule {
     constructor(rule: ACTRule, locale: Translate);
 
-    abstract execute(element: QWElement | undefined): void;
+    abstract execute(element: QWElementNode | undefined): void;
   }
 
   class ACTRules {
@@ -193,7 +193,7 @@ declare module "@qualweb/act-rules" {
     public resetConfiguration(): void;
     public executeAtomicRules(): void;
     public executeCompositeRules(): void;
-    public validateMetaElements(metaElements: Array<QWElement>): void;
+    public validateMetaElements(metaElements: Array<QWElementNode>): void;
     public validateZoomedTextNodeNotClippedWithCSSOverflow(): void;
     public validateFirstFocusableElementIsLinkToNonRepeatedContent(): void;
     public getReport(): ACTRulesReport;
