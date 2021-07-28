@@ -1,10 +1,12 @@
 # Changelog
 
-### [0.8.0-alpha] - 28/07/2021
+### [0.8.0-alpha2] - 28/07/2021
 
 ### Changed
 
 - QWElement to QWElementNode in several interfaces
+
+### [0.8.0-alpha] - 28/07/2021
 
 ### Updated
 
