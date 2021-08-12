@@ -25,6 +25,9 @@ declare module "@qualweb/qw-page" {
   }
 
   class QWNode {
+    node: Node;
+    elementsCSSRules?: Map<Node, CSSProperties>;
+
     constructor(node: Node, elementsCSSRules?: Map<Node, CSSProperties>);
     public getType(): string;
     public hasChildNodes(): boolean;
@@ -43,9 +46,18 @@ declare module "@qualweb/qw-page" {
       | QWNode
       | null;
     public getParentNode(): QWNode | null;
+    convertToQWNode(node: Node): QWNode;
+    convertAllToQWElementNode(
+      elements: NodeListOf<Element>
+    ): Array<QWElementNode>;
+    convertToQWElementNode(element: Element): QWElementNode;
+    addCSSRulesPropertyToElement(element: Element): void;
+    convertToQWTextNode(node: ChildNode): QWTextNode;
+    convertToQWCommentNode(node: ChildNode): QWCommentNode;
   }
 
   class QWElementNode extends QWNode {
+    selector: string | undefined;
     constructor(
       node: Node | Element,
       elementsCSSRules?: Map<Node, CSSProperties>
@@ -66,6 +78,10 @@ declare module "@qualweb/qw-page" {
     public getCSSPseudoSelectorRules(
       pseudoSelector: string
     ): PseudoSelectorProperty | undefined;
+    public getComputedStyle(
+      property: string,
+      pseudoStyle: string | null
+    ): string;
     public getText(): string | null;
     public getOwnText(): string | null;
     public hasNonEmptyTextNode(): boolean;
@@ -80,8 +96,8 @@ declare module "@qualweb/qw-page" {
     public getParentAllContexts(): QWElementNode | null;
     public getAttribute(attribute: string): string | null;
     public getAttributes(): { [attr: string]: string };
-    public getElementAttributesName(): Array<string>;
-    public setElementAttribute(attribute: string, value: string): void;
+    public getAttributeNames(): Array<string>;
+    public setAttribute(attribute: string, value: string): void;
     public find(selector: string): QWElementNode | null;
     public findAll(selector: string): Array<QWElementNode>;
     public shadowFind(selector: string): QWElementNode | null;
@@ -91,7 +107,7 @@ declare module "@qualweb/qw-page" {
     public getNumberOfSiblingsWithTheSameTag(tag: string): number;
     public getChildTextContent(childName: string): string | null;
     public concatAccessibleNames(aNames: Array<string>): string;
-    public getElementProperty(property: string): unknown;
+    public getProperty(property: string): unknown;
     public getMediaDuration(): number | null;
     public isMediaMuted(): boolean | null;
     public isMediaWithAutoplay(): boolean | null;
@@ -133,6 +149,8 @@ declare module "@qualweb/qw-page" {
     public isFocused(): boolean;
     public isPartOfSequentialFocusNavigation(): boolean;
     public getSelector(): string;
+    getSelfLocationInParent(element: Element): string;
+    noParentScrolled(offset: number): boolean;
   }
 
   class QWTextNode extends QWNode {
