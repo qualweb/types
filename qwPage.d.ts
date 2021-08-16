@@ -109,8 +109,10 @@ declare module "@qualweb/qw-page" {
     public concatAccessibleNames(aNames: Array<string>): string;
     public getProperty(property: string): unknown;
     public getMediaDuration(): number | null;
+    public hasMediaControls(): boolean | null;
     public isMediaMuted(): boolean | null;
     public isMediaWithAutoplay(): boolean | null;
+    public videoHasAudio(): boolean;
     public getScrollHeight(): number;
     public getScrollWidth(): number;
     public getClientHeight(): number;
@@ -133,7 +135,11 @@ declare module "@qualweb/qw-page" {
     ): boolean;
     public allowsNameFromContent(): boolean;
     public getAccessibleName(): string | undefined;
+    public getAccessibleNameSVG(): string | undefined;
+    public getAccessibleNameSelector(): Array<string> | undefined;
     public getRole(): string | null;
+    public getImplicitRole(accessibleName: string): string | null;
+    public getValidExplicitRole(): string | null;
     public hasGlobalARIAPropertyOrAttribute(): boolean;
     public hasValidRole(): boolean;
     public getAriaOwner(): QWElementNode | null;

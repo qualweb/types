@@ -1,5 +1,11 @@
 # Changelog
 
+### [0.8.0-alpha4] - 16/08/2021
+
+### Updated
+
+- qw-page interface
+
 ### [0.8.0-alpha3] - 12/08/2021
 
 ### Updated
