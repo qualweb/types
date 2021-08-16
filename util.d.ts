@@ -65,7 +65,6 @@ declare module "@qualweb/util" {
       element: QWElementNode,
       checkChildren: boolean
     ): boolean;
-    public static getTrimmedText(element: QWElementNode): string;
     public static objectElementIsNonText(element: QWElementNode): boolean;
   }
 

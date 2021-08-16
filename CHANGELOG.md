@@ -1,5 +1,11 @@
 # Changelog
 
+### [0.8.0-alpha5] - 16/08/2021
+
+### Updated
+
+- util interface
+
 ### [0.8.0-alpha4] - 16/08/2021
 
 ### Updated
