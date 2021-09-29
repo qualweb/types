@@ -33,27 +33,13 @@ declare module "@qualweb/qw-page" {
     public hasChildNodes(): boolean;
     public hasTextNode(): boolean;
     public isHTMLElement(): boolean;
-    public previousSibling():
-      | QWElementNode
-      | QWTextNode
-      | QWCommentNode
-      | QWNode
-      | null;
-    public nextSibling():
-      | QWElementNode
-      | QWTextNode
-      | QWCommentNode
-      | QWNode
-      | null;
+    public previousSibling(): QWNode | null;
+    public nextSibling(): QWNode | null;
     public getParentNode(): QWNode | null;
     convertToQWNode(node: Node): QWNode;
-    convertAllToQWElementNode(
-      elements: NodeListOf<Element>
-    ): Array<QWElementNode>;
-    convertToQWElementNode(element: Element): QWElementNode;
-    addCSSRulesPropertyToElement(element: Element): void;
-    convertToQWTextNode(node: ChildNode): QWTextNode;
-    convertToQWCommentNode(node: ChildNode): QWCommentNode;
+    toQWElementNode(): QWElementNode;
+    toQWTextNode(): QWTextNode;
+    toQWCommentNode(): QWCommentNode;
   }
 
   class QWElementNode extends QWNode {
@@ -157,6 +143,11 @@ declare module "@qualweb/qw-page" {
     public getSelector(): string;
     getSelfLocationInParent(element: Element): string;
     noParentScrolled(offset: number): boolean;
+    convertAllToQWElementNode(
+      elements: NodeListOf<Element>
+    ): Array<QWElementNode>;
+    convertToQWElementNode(element: Element): QWElementNode;
+    addCSSRulesPropertyToElement(element: Element): void;
   }
 
   class QWTextNode extends QWNode {
@@ -172,6 +163,7 @@ declare module "@qualweb/qw-page" {
 
   class QWPage {
     constructor(document: Document, addCSSRulesToElements?: boolean);
+    public createQWNode(node: Node): QWNode;
     public createQWElementNode(element: Element): QWElementNode;
     public cacheValue(
       selector: string,
