@@ -1,5 +1,11 @@
 # Changelog
 
+### [0.8.0-alpha5] - 14/12/2021
+
+### Updated
+
+- act-rules interface
+
 ### [0.8.0-alpha5] - 16/08/2021
 
 ### Updated

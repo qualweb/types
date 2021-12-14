@@ -195,7 +195,6 @@ declare module "@qualweb/act-rules" {
     public executeCompositeRules(): void;
     public validateMetaElements(metaElements: Array<QWElementNode>): void;
     public validateZoomedTextNodeNotClippedWithCSSOverflow(): void;
-    public validateFirstFocusableElementIsLinkToNonRepeatedContent(): void;
     public getReport(): ACTRulesReport;
 
     private executeRule(rule: string, selector: string): void;
