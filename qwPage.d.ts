@@ -89,10 +89,13 @@ declare module "@qualweb/qw-page" {
     public shadowFind(selector: string): QWElementNode | null;
     public shadowFindAll(selector: string): Array<QWElementNode>;
     public previousElementSibling(): QWElementNode | null;
+    public previousElementSiblings(): Array<QWElementNode>;
     public nextElementSibling(): QWElementNode | null;
-    public getNumberOfSiblingsWithTheSameTag(tag: string): number;
+    public nextElementSiblings(): Array<QWElementNode>;
+    public getNumberOfSiblingsWithTheSameTag(): number;
     public getChildTextContent(childName: string): string | null;
     public concatAccessibleNames(aNames: Array<string>): string;
+    public getElementReferencedByHREF(): QWElementNode | null;
     public getProperty(property: string): unknown;
     public getMediaDuration(): number | null;
     public hasMediaControls(): boolean | null;
@@ -124,7 +127,7 @@ declare module "@qualweb/qw-page" {
     public getAccessibleNameSVG(): string | undefined;
     public getAccessibleNameSelector(): Array<string> | undefined;
     public getRole(): string | null;
-    public getImplicitRole(accessibleName: string): string | null;
+    public getImplicitRole(accessibleName: string | undefined): string | null;
     public getValidExplicitRole(): string | null;
     public hasGlobalARIAPropertyOrAttribute(): boolean;
     public hasValidRole(): boolean;
