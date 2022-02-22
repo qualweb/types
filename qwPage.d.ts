@@ -89,13 +89,13 @@ declare module "@qualweb/qw-page" {
     public shadowFind(selector: string): QWElementNode | null;
     public shadowFindAll(selector: string): Array<QWElementNode>;
     public previousElementSibling(): QWElementNode | null;
-    //TODO: public previousElementSiblings(): Array<QWElementNode>;
+    public previousElementSiblings(): Array<QWElementNode>;
     public nextElementSibling(): QWElementNode | null;
-    //TODO: public nextElementSiblings(): Array<QWElementNode>;
+    public nextElementSiblings(): Array<QWElementNode>;
     public getNumberOfSiblingsWithTheSameTag(): number;
     public getChildTextContent(childName: string): string | null;
     public concatAccessibleNames(aNames: Array<string>): string;
-    //TODO: public getElementReferencedByHREF(): QWElementNode | null;
+    public getElementReferencedByHREF(): QWElementNode | null;
     public getProperty(property: string): unknown;
     public getMediaDuration(): number | null;
     public hasMediaControls(): boolean | null;
