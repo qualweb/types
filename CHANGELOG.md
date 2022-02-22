@@ -1,5 +1,11 @@
 # Changelog
 
+### [0.8.0-alpha10] - 22/02/2022
+
+### Updated
+
+- qw-page interface
+
 ### [0.8.0-alpha9] - 22/02/2022
 
 ### Updated

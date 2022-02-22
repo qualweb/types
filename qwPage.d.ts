@@ -86,6 +86,8 @@ declare module "@qualweb/qw-page" {
     public setAttribute(attribute: string, value: string): void;
     public find(selector: string): QWElementNode | null;
     public findAll(selector: string): Array<QWElementNode>;
+    public findVisible(selector: string): QWElementNode | null;
+    public findAllVisible(selector: string): Array<QWElementNode>;
     public shadowFind(selector: string): QWElementNode | null;
     public shadowFindAll(selector: string): Array<QWElementNode>;
     public previousElementSibling(): QWElementNode | null;
