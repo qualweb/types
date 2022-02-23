@@ -34,7 +34,9 @@ declare module "@qualweb/qw-page" {
     public hasTextNode(): boolean;
     public isHTMLElement(): boolean;
     public previousSibling(): QWNode | null;
+    public previousSiblings(): Array<QWNode>;
     public nextSibling(): QWNode | null;
+    public nextSiblings(): Array<QWNode>;
     public getParentNode(): QWNode | null;
     convertToQWNode(node: Node): QWNode;
     toQWElementNode(): QWElementNode;
