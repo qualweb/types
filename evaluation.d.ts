@@ -70,6 +70,7 @@ declare module "@qualweb/evaluation" {
       evaluation: Report | WappalyzerReport | CounterReport
     ): void;
     public getFinalReport(): EvaluationReport;
+    public getFinalReportQS(): EvaluationReport;
   }
 
   class Evaluation {
@@ -81,7 +82,9 @@ declare module "@qualweb/evaluation" {
     public evaluatePage(
       sourceHtml: string,
       options: QualwebOptions,
-      validation?: HTMLValidationReport
+      validation?: HTMLValidationReport,
+      selector?: [],
+      qsHeader?: boolean
     ): Promise<EvaluationRecord>;
     private getEvaluator(): Promise<Evaluator>;
     private parseUrl(): Url;

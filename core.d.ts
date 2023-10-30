@@ -63,6 +63,7 @@ declare module "@qualweb/core" {
     file?: string;
     crawl?: string;
     html?: string;
+    qualstate?: QualState;
     timeout?: number;
     maxParallelEvaluations?: number;
     log?: {
@@ -83,6 +84,91 @@ declare module "@qualweb/core" {
     "best-practices"?: BPOptions;
   }
 
+  interface QualState {
+    url?: String;
+    waitTime?: number;
+    maxStates?: number;
+    numberOfProcesses? : number;
+    viewport?: PageOptions;
+    ignore?: QS_Ignore;
+    interaction?: QS_Interaction;
+  }
+
+  interface QS_Ignore {
+    idsCompare: [String];
+    idsEvents: [String];
+  }
+
+  interface QS_Interaction {
+    form: [QS_InteractionForm];
+    inputs: [QS_InteractionInputs];
+    directions: [QS_InteractionDirections];
+  }
+
+  interface QS_InteractionForm {
+    form: {
+      input: QS_InteractionFormInput;
+      action: QS_InteractionFormAction;
+      info: QS_InteractionFormInfo;
+    };
+  }
+
+  interface QS_InteractionFormInput {
+    input: [{}];
+  }
+
+  interface QS_InteractionFormAction {
+    id: String;
+    event: String;
+  }
+
+  interface QS_InteractionFormInfo {
+    formId: String;
+    wait: Number ;
+  }
+
+  interface QS_InteractionInputs {
+    inputs: [QS_InteractionInputsData];
+  }
+
+  interface QS_InteractionInputsData {
+    value: {};
+    info?: QS_InteractionInputsInfo;
+  }
+
+  interface QS_InteractionInputsInfo {
+    wait: Number;
+  }
+
+  interface QS_InteractionDirections {
+    directions: [QS_InteractionDirectionsData];
+  }
+
+  interface QS_InteractionDirectionsData {
+    action: [QS_InteractionDirectionsActions];
+    info: QS_InteractionDirectionsInfo;
+  }
+
+  interface QS_InteractionDirectionsActions {
+    values: {};
+    action: QS_InteractionDirectionsActionsAction;
+    info: QS_InteractionDirectionsActionsInfo;
+  }
+
+  interface QS_InteractionDirectionsActionsAction {
+    id: String;
+    event: String;
+  }
+
+  interface QS_InteractionDirectionsActionsInfo {
+    wait: number;
+  }
+
+  interface QS_InteractionDirectionsInfo {
+    crawl: "continue" | "stop";
+    save: boolean;
+  }
+
   interface Evaluator {
     name: string;
     description: string;
@@ -91,7 +177,7 @@ declare module "@qualweb/core" {
     date: string;
     hash: string;
     url?: Url;
-    page: {
+    page?: {
       viewport: {
         mobile?: boolean;
         landscape?: boolean;
@@ -101,7 +187,7 @@ declare module "@qualweb/core" {
           height?: number;
         };
       };
-      dom: DomData;
+      dom?: DomData;
     };
   }
 
@@ -128,12 +214,29 @@ declare module "@qualweb/core" {
     "best-practices"?: BestPracticesReport;
     counter?: CounterReport;
   }
-
+  
   interface EvaluationReport {
-    type: "evaluation";
-    system: Evaluator;
-    metadata: Metadata;
-    modules: Modules;
+    type?: "evaluation";
+    system?: Evaluator;
+    state?: State;
+    states?: [State];
+    metadata?: Metadata;
+    modules?: Modules;
+  }
+
+  interface State {
+    selector?: [Selector];
+    dom?: DomData;
+    metadata?: Metadata;
+    modules?: Modules;
+  }
+
+  interface Selector {
+    user: String;
+    id: String;
+    className: String;
+    eventType: String;
+    selector: String;
   }
 
   interface PageOptions {
@@ -151,7 +254,8 @@ declare module "@qualweb/core" {
     | "act-rules"
     | "wcag-techniques"
     | "best-practices"
-    | "counter";
+    | "counter"
+    | "stateInfo";
 
   interface Evaluations {
     [url: string]: EvaluationReport;
@@ -265,6 +369,8 @@ declare module "@qualweb/core" {
     Metadata,
     Modules,
     Module,
+    State,
+    Selector,
     PageOptions,
     Evaluations,
     PuppeteerPlugins,
